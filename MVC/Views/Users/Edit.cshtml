@@ -1,0 +1,67 @@
+﻿@model MVC.UsersClient.UserVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="float-start">
+            <h4 class="">Editar</h4>
+        </div>
+        <div class="float-end">
+            <a class="btn btn-secondary m-3" href="@Url.Action("Index")" title="Back">
+                <i class="fas fa-chevron-left"></i>
+                Volver
+            </a>
+        </div>
+    </div>
+    <div class="col-md-12 mt-5">
+        @using (Html.BeginForm(Model.Id))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+
+        <div class="row">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-6">
+                <div class="row mb-3 position-relative">
+                    <label for="nom_banco" class="col-sm-3 col-form-label">Nombre</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row mb-3 position-relative">
+                    <label for="nom_banco" class="col-sm-3 col-form-label">Fecha de cumpleaños</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" value="@Model.Birthday.ToString("yyyy-MM-dd")" name="Birthday" id="Birthday" />
+                        @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row mb-3 position-relative">
+                    <label for="nom_banco" class="col-sm-3 col-form-label">Sexo</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownList("Gender", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">
+                    Guardar
+                </button>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

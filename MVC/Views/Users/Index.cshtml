@@ -1,0 +1,83 @@
+﻿@model IEnumerable<MVC.UsersClient.UserVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="float-start">
+            <h4>Usuarios</h4>
+        </div>
+        <div class="float-end">
+            <a href="@Url.Action("Create")" class="btn btn-primary">
+                Crear
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-striped tablecontainer" id="">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Genero</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @item.Birthday.ToShortDateString()
+                            </td>
+                            <td>
+                                @(item.Gender == 1 ? "Masculino" : "Femenino")
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" href="@Url.Action("Edit", new { id = item.Id })"
+                                   data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+                                    <i class="fas fa-edit" aria-hidden="true"></i>
+                                </a>
+                                <a class="btn btn-danger swalDelete" data-id="@item.Id"
+                                   data-url="@Url.Action("Delete", new { id = item.Id })"
+                                   data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    @if (ViewBag.Page > 0)
+                    {
+                        <li class="page-item"><a class="page-link" href="@Url.Action("Index", new { page = ViewBag.Page - 1 })">Anterior</a></li>
+                    }
+
+                    @for (int i = 0; i < ViewBag.PageSize; i++)
+                    {
+                        <li class="page-item"><a class="page-link" href="@Url.Action("Index", new { page = i })">@(i+1)</a></li>
+                    }
+
+                    @if (ViewBag.Page < ViewBag.MaxPage)
+                    {
+                        <li class="page-item"><a class="page-link" href="@Url.Action("Index", new { page = ViewBag.Page + 1 })">Siguiente</a></li>
+                    }
+
+                </ul>
+            </nav>
+           
+        </div>
+        
+    </div>
+</div>
